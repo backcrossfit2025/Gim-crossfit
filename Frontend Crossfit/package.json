@@ -1,0 +1,28 @@
+{
+  "name": "crossfit",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.17.0",
+    "axios": "^1.7.8",
+    "floating-vue": "^5.2.2",
+    "pinia": "^2.2.6",
+    "pinia-plugin-persistedstate": "^4.1.3",
+    "quasar": "^2.18.1",
+    "vue": "^3.4.21",
+    "vue-router": "^4.5.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.9.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "sass-embedded": "^1.89.2",
+    "vite": "^5.2.0"
+  }
+}
