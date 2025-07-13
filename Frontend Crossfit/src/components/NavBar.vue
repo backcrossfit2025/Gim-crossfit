@@ -100,8 +100,8 @@ handleResize();
             <img src="../assets/logo_2.png" alt="Logo" class="logo-img" />
             <h4 class="navbar-quote">
               {{ estaLogueado && rolUsuario === 'cliente'
-                ? '“Más que un gimnasio, una comunidad.”'
-                : '"Supera el dolor, disfruta el progreso.""' }}
+                ? '“Prohibido rendirse, trainers col.”'
+                : '"Prohibido rendirse, Respira hondo y sigue."' }}
             </h4>
           </a>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
