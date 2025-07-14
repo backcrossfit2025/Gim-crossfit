@@ -33,7 +33,7 @@
               <div class="col-12">
                 <q-card flat bordered class="q-pa-md bg-grey-1 shadow-1 q-mb-md antropo-card-custom">
                   <div class="text-h6 text-orange-9 q-mb-md text-center card-title">Básicos</div>
-                  <div class="q-mb-xs datos-campo"><b>Estatura:</b> <span>{{ perfil.datos_antropometricos.estatura_cm }} cm</span></div>
+                  <div class="q-mb-xs datos-campo"><b>Estatura:</b> <span>{{ perfil.datos_antropometricos.estatura_cm }} centimetros</span></div>
                   <div class="q-mb-xs datos-campo"><b>Peso:</b> <span>{{ perfil.datos_antropometricos.peso_kg }} kg</span></div>
                   <div class="q-mb-xs datos-campo"><b>IMC:</b> <span>{{ perfil.datos_antropometricos.imc }}</span></div>
                 </q-card>
@@ -147,7 +147,8 @@
               <q-expansion-item label="Antropometría" icon="fitness_center" default-opened>
                 <q-input v-model="perfilEdita.datos_antropometricos.estatura_cm" label="Estatura (cm)" dense type="number" />
                 <q-input v-model="perfilEdita.datos_antropometricos.peso_kg" label="Peso (kg)" dense type="number" />
-                <q-input v-model="perfilEdita.datos_antropometricos.imc" label="IMC" dense type="number" />
+                <q-input v-model="perfilEdita.datos_antropometricos.imc" label="IMC" dense type="number" readonly />
+
                 <q-expansion-item label="Pliegues Cutáneos">
                   <q-input v-for="k in plieguesKeys" :key="k" v-model="perfilEdita.datos_antropometricos.pliegues_cutaneos[k]" :label="k" dense type="number" />
                 </q-expansion-item>
@@ -233,7 +234,7 @@
       </q-dialog>
     </q-card>
       <div class="social-buttons">
-  <a href="https://wa.me/3012756264" target="_blank" aria-label="whatsapp">
+    <a href="https://wa.me/+573103660846" target="_blank" aria-label="whatsapp">
     <img src="../assets/whatsapp.png" alt="whatsapp" />
   </a>
   <a href="https://www.facebook.com/Trainerscol/" target="_blank" aria-label="Facebook">
@@ -260,6 +261,7 @@ import { useStoreAtleta } from "../stores/perfilAtleta.js";
 import { useStoreUsuarios } from "../stores/usuario.js";
 import { useStoreItems } from "../stores/items.js";
 import axios from "axios";
+import { watch } from 'vue'
 
 const itemSeleccionado = ref(null)
 const valorItem = ref('')
@@ -355,6 +357,11 @@ function crearPerfil() {
   };
   mostrarDialogo.value = true;
 }
+
+
+// funcion campo imc calculador de imc
+
+
 
 // Utilidad para parsear campos numéricos
 function parseNumericos(obj) {
@@ -461,6 +468,22 @@ function actualizarItem() {
   Notify.create({ type: 'positive', message: 'Item actualizado correctamente.' })
 }
 
+
+// funcion imc
+watch(
+  () => [perfilEdita.value?.datos_antropometricos?.peso_kg, perfilEdita.value?.datos_antropometricos?.estatura_cm],
+  ([peso, estatura]) => {
+    if (peso > 0 && estatura > 0) {
+      // convertir estatura a metros
+      const imc = peso / Math.pow(estatura / 100, 2)
+      perfilEdita.value.datos_antropometricos.imc = Number(imc.toFixed(2))
+    } else {
+      perfilEdita.value.datos_antropometricos.imc = null
+    }
+  }
+)
+
+
 // Eliminar item (sale del modo edición si lo eliminaste)
 function eliminarItem(idx) {
   perfilEdita.value.items.splice(idx, 1)
@@ -540,6 +563,9 @@ const onEvidenciaFileChange = async (e, idx) => {
     });
   }
 };
+
+
+
 </script>
 
 

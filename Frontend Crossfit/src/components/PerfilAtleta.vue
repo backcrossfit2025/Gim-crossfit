@@ -127,6 +127,11 @@
                       atletaDetalle.datos_antropometricos.imc
                     }}</span>
                   </div>
+                  <!-- <div class="item-label">
+                    <b>IMC:</b>
+                    <span class="item-value">{{ imcDetalle }}</span>
+                  </div> -->
+
                   <div class="item-label q-mt-md">
                     <b>Pliegues Cutáneos:</b>
                   </div>
@@ -304,11 +309,18 @@
                   dense
                   type="number"
                 />
-                <q-input
+                <!-- <q-input
                   v-model="atletaEdita.datos_antropometricos.imc"
                   label="IMC"
                   dense
                   type="number"
+                /> -->
+                <q-input
+                  :model-value="imcEdita"
+                  label="IMC"
+                  dense
+                  type="number"
+                  readonly
                 />
                 <q-expansion-item label="Pliegues Cutáneos">
                   <q-input
@@ -586,6 +598,7 @@ const crearAtleta = () => {
     datos_antropometricos: {
       estatura_cm: null,
       peso_kg: null,
+
       imc: null,
       pliegues_cutaneos: {},
       perimetros_musculares: {},
@@ -700,6 +713,19 @@ watch(
   },
   { immediate: true, deep: true }
 );
+
+// detalle imc
+
+const imcEdita = computed(() => {
+  const d = atletaEdita.value?.datos_antropometricos;
+  if (!d) return "";
+  const peso = Number(d.peso_kg);
+  const estatura = Number(d.estatura_cm);
+  if (peso > 0 && estatura > 0) {
+    return (peso / Math.pow(estatura / 100, 2)).toFixed(2);
+  }
+  return "";
+});
 
 const filtrados = computed(() =>
   Array.isArray(useAtleta.lista)

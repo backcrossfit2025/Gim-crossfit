@@ -10,7 +10,7 @@ const rolUsuario = computed(() => userStore.usuario?.rol);
 <template>
   <div>
     <div class="social-buttons">
-      <a href="https://wa.me/3012756264" target="_blank" aria-label="whatsapp">
+      <a href="https://wa.me/+573103660846" target="_blank" aria-label="whatsapp">
         <img src="../assets/whatsapp.png" alt="whatsapp" />
       </a>
       <a href="https://www.facebook.com/Trainerscol/" target="_blank" aria-label="Facebook">

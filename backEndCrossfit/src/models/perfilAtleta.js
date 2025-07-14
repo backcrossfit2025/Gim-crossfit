@@ -84,4 +84,3 @@ atletaSchema.virtual("edad").get(function() {
 });
 
 module.exports = mongoose.model("Atleta", atletaSchema);
-
