@@ -1,34 +1,43 @@
 <template>
-  <NavBar />
-  <!-- <main class="main-content fondo-gym">
-    <router-view />
-  </main> -->
-  <footer v-if="!store.token" class="footer">
-    <div class="container p-3">
-      <div class="footer-row">
-        <div class="footer-col">
-          <h6>Síganos en Nuestra Redes</h6>
-          <div class="footer-social">
-            <a href="https://www.facebook.com/Trainerscol/" target="_blank"><i class="bi bi-facebook"></i></a>
-            <a href="https://www.instagram.com/trainerscolsoc?igshid=1tt2rd726w4dz" target="_blank"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.youtube.com/channel/UCSlxXNEJxW1c1gtZ8Y-4QRA" target="_blank"><i class="bi bi-youtube"></i></a>
+  <div class="app-container">
+    <NavBar />
+    <main class="page-content-superpuesto">
+      <router-view />
+    </main>
+    <footer v-if="!store.token" class="footer">
+      <!-- tu contenido de footer (igual que ahora) -->
+      <div class="container p-3">
+        <div class="footer-row">
+          <div class="footer-col">
+            <h6>Síganos en Nuestra Redes</h6>
+            <div class="footer-social">
+              <a href="https://www.facebook.com/Trainerscol/" target="_blank">
+                <i class="bi bi-facebook" />
+              </a>
+              <a href="https://www.instagram.com/trainerscolsoc?igshid=1tt2rd726w4dz" target="_blank">
+                <i class="bi bi-instagram" />
+              </a>
+              <a href="https://www.youtube.com/channel/UCSlxXNEJxW1c1gtZ8Y-4QRA" target="_blank">
+                <i class="bi bi-youtube" />
+              </a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <p><i class="bi bi-geo-alt-fill" /> Calle 12 N° 10 - 48, Socorro, Santander, Colombia</p>
+            <p><i class="bi bi-globe" />
+              <a href="https://trainerscol.com/" target="_blank">trainerscol.com</a>
+            </p>
+            <p class="copyright">© 2024 Copyright: Trainers Col Socorro</p>
+          </div>
+          <div class="footer-col">
+            <h6>Contacto</h6>
+            <p><i class="bi bi-telephone-fill" /> 310 3660846</p>
+            <p><i class="bi bi-envelope-at-fill" /> trainerscolsoc@gmail.com</p>
           </div>
         </div>
-        <div class="footer-col">
-          <p><i class="bi bi-geo-alt-fill"></i> Calle 12 N° 10 - 48, Socorro, Santander, Colombia</p>
-          <p><i class="bi bi-globe"></i>
-            <a href="https://trainerscol.com/" target="_blank">https://trainerscol.com</a>
-          </p>
-          <p class="copyright">© 2024 Copyright: Trainers Col Socorro</p>
-        </div>
-        <div class="footer-col">
-          <h6>Contacto</h6>
-          <p><i class="bi bi-telephone-fill"></i> 310 3660846</p>
-          <p><i class="bi bi-envelope-at-fill"></i> trainerscolsoc@gmail.com</p>
-        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </div>
 </template>
 
 <script setup>
@@ -36,7 +45,6 @@ import NavBar from './components/NavBar.vue'
 import { useStoreUsuarios } from './stores/usuario'
 const store = useStoreUsuarios()
 </script>
-
 <style scoped>
 .footer {
   background-color: #000;
@@ -46,6 +54,7 @@ const store = useStoreUsuarios()
   width: 100%;
   margin-top: auto;
   position: relative;
+  margin-top: 560px;
 }
 .footer-row {
   display: flex;
@@ -131,6 +140,7 @@ const store = useStoreUsuarios()
   .footer {
     padding: 16px 4px 10px 4px;
     font-size: 13px;
+    
   }
   .footer h6 {
     font-size: 15px;
@@ -176,5 +186,48 @@ const store = useStoreUsuarios()
 .main-content, .container {
   max-width: 100vw !important;
   overflow-x: hidden;
+}
+
+/* contenido superpuesto */
+  .page-content-superpuesto {
+    margin-top: -800px !important;
+    border-radius: 12px 12px 0 0;
+    /* min-height: 50vh; */
+    padding: 1vw 0.5vw 2vw 13.5vw !important;
+  }
+  /* Responsividad */
+@media (max-width: 1200px) and (min-width: 900px) {
+  .page-content-superpuesto {
+    margin-top: -350px;
+    padding: 3vw 2vw 4vw 2vw;
+    min-height: 55vh;
+  }
+}
+
+
+  .page-content-superpuesto[data-v-c3ceb15a]
+ {
+    /* position: relative; */
+    width: 100%;
+    margin: 0 auto;
+    margin-top: -900px;
+    /* min-height: 55vh; */
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 4px 28px rgba(0, 0, 0, 0.10);
+    /* padding: 2vw 1vw 3vw 1vw; */
+    padding: 1vw 0.5vw 2vw 13.5vw !important;
+    /* padding: 3vw 0.5vw 1vw 14.5vw; */
+    transition: width 0.2s, margin 0.2s;
+    z-index: 10;
+}
+  
+/* Responsividad */
+@media (max-width: 1200px) and (min-width: 900px) {
+  .page-content-superpuesto {
+    margin-top: -350px;
+    padding: 3vw 2vw 4vw 2vw;
+    min-height: 55vh;
+  }
 }
 </style>

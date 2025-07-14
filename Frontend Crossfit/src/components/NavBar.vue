@@ -153,9 +153,9 @@ handleResize();
             style="width: 100%; object-fit: cover;"
           />
         </div>
-        <div class="page-content-superpuesto">
+        <!-- <div class="page-content-superpuesto">
             <router-view />
-</div>
+</div> -->
       </nav>
   
     </q-page-container>

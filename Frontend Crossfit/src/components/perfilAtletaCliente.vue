@@ -232,9 +232,7 @@
         </q-card>
       </q-dialog>
     </q-card>
-  </div>
-
-  <div class="social-buttons">
+      <div class="social-buttons">
   <a href="https://wa.me/3012756264" target="_blank" aria-label="whatsapp">
     <img src="../assets/whatsapp.png" alt="whatsapp" />
   </a>
@@ -248,6 +246,10 @@
     <img src="../assets/youtube.png" alt="youtube" />
   </a>
 </div>
+
+  </div>
+
+
 
 </template>
 
@@ -522,7 +524,7 @@ const onEvidenciaFileChange = async (e, idx) => {
     const atletaId = perfil.value._id;
     const itemId = perfil.value.items[idx]._id || perfil.value.items[idx].item_id;
     const token = usuarioStore.token;
-    const url = `http://localhost:2436/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
+    const url = `https://gim-crossfit.onrender.com/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
     const response = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -569,6 +571,7 @@ const onEvidenciaFileChange = async (e, idx) => {
   .q-card {
     border-radius: 0 !important;
     box-shadow: none !important;
+    margin-top: 80px;
   }
 }
 .q-card.q-card--bordered.q-card--flat.no-shadow.q-pa-md.bg-grey-1.shadow-1.q-mb-md {
@@ -606,10 +609,12 @@ const onEvidenciaFileChange = async (e, idx) => {
 }
 @media (max-width: 576px) {
   .social-buttons {
-    top: auto;
+    /* top: auto; */
     bottom: 10px;
     right: 10px;
+    margin-top: 35px;
   }
+  
   .social-buttons img {
     width: 40px;
     height: 40px;
