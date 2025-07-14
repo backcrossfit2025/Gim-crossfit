@@ -751,7 +751,7 @@ const onEvidenciaFileChange = async (e, idx) => {
     const itemId =
       atletaEdita.value.items[idx]._id || atletaEdita.value.items[idx].item_id;
     const token = useUsuario.token;
-    const url = `http://localhost:2436/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
+    const url = `https://gim-crossfit.onrender.com/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
     const response = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",

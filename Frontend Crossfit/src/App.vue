@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+
   <!-- <main class="main-content fondo-gym">
     <router-view />
   </main> -->
