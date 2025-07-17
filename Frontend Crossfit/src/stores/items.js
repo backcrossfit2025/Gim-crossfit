@@ -133,6 +133,7 @@ export const useStoreItems = defineStore('items', () => {
     getById,
     buscar,
     editar,
+    crear,
     eliminar,
     evaluarNivel
   }
