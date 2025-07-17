@@ -299,7 +299,7 @@
               <q-expansion-item label="Antropometría" icon="fitness_center">
                 <q-input
                   v-model="atletaEdita.datos_antropometricos.estatura_cm"
-                  label="Estatura (cm)"
+                  label="Estatura (mt)"
                   dense
                   type="number"
                 />
