@@ -35,7 +35,20 @@
                   <div class="text-h6 text-orange-9 q-mb-md text-center card-title">Básicos</div>
                   <div class="q-mb-xs datos-campo"><b>Estatura:</b> <span>{{ perfil.datos_antropometricos.estatura_cm }} centimetros</span></div>
                   <div class="q-mb-xs datos-campo"><b>Peso:</b> <span>{{ perfil.datos_antropometricos.peso_kg }} kg</span></div>
-                  <div class="q-mb-xs datos-campo"><b>IMC:</b> <span>{{ perfil.datos_antropometricos.imc }}</span></div>
+                  <!-- <div class="q-mb-xs datos-campo"><b>IMC:</b> <span>{{ perfil.datos_antropometricos.imc }}</span></div> -->
+                <div class="q-mb-xs datos-campo">
+  <b>IMC: </b>
+  <span :class="colorIMC"> 
+    {{ perfil.datos_antropometricos.imc }}
+  </span>
+</div>
+<div class="q-mt-xs">
+  <q-badge v-if="colorIMC === 'imc-bajo'" color="blue-8" label="Peso bajo" />
+  <q-badge v-else-if="colorIMC === 'imc-normal'" color="green-8" label="Peso normal" />
+  <q-badge v-else-if="colorIMC === 'imc-sobrepeso'" color="orange-4" text-color="black" label="Sobrepeso" />
+  <q-badge v-else-if="colorIMC === 'imc-obesidad'" color="orange-10" label="Obesidad" />
+</div>
+                
                 </q-card>
               </div>
             </div>
@@ -359,8 +372,16 @@ function crearPerfil() {
 }
 
 
-// funcion campo imc calculador de imc
-
+// funcion campo imc calculador de imc color por estilo
+const colorIMC = computed(() => {
+  const imc = perfil.value?.datos_antropometricos?.imc
+  if (imc === null || imc === undefined) return ''
+  if (imc < 18) return 'imc-bajo'
+  if (imc >= 18 && imc <= 25) return 'imc-normal'
+  if (imc > 25 && imc <= 30) return 'imc-sobrepeso'
+  if (imc > 30) return 'imc-obesidad'
+  return ''
+})
 
 
 // Utilidad para parsear campos numéricos
@@ -569,6 +590,9 @@ const onEvidenciaFileChange = async (e, idx) => {
 </script>
 
 
+
+
+
 <style scoped>
 .perfil-atleta-cliente-page {
   min-height: 70vh;
@@ -698,6 +722,25 @@ const onEvidenciaFileChange = async (e, idx) => {
 
 
 
+/* estilos colo imc: */
+.imc-bajo {
+  color: #1976d2;
+  font-weight: bold;
+}
+.imc-normal {
+  color: #388e3c;
+  font-weight: bold;
+}
+.imc-sobrepeso {
+  color: #ffa726;
+  font-weight: bold;
+}
+.imc-obesidad {
+  color: #e65100;
+  font-weight: bold;
+}
+
+
 /* scrroll antropometria */
 /* Scroll solo para las tarjetas de pliegues y perímetros */
 .antropo-scroll-wrapper {
@@ -740,10 +783,7 @@ const onEvidenciaFileChange = async (e, idx) => {
     padding: 3px 2px !important;
   }
 }
-
-
 /* modal editar */
-
 /* Hace el modal responsivo en móviles pequeños */
 @media (max-width: 420px) {
   .q-dialog__inner > .q-card {

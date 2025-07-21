@@ -121,12 +121,28 @@
                       kg</span
                     >
                   </div>
-                  <div class="item-label">
+                  <!-- <div class="item-label">
                     <b>IMC:</b>
                     <span class="item-value">{{
                       atletaDetalle.datos_antropometricos.imc
                     }}</span>
+                  </div> -->
+
+   <!-- IMC con color dinámico -->
+                  <div class="item-label">
+                    <b>IMC: </b>
+                    <span :class="colorIMCDetalle(atletaDetalle.datos_antropometricos.imc)">
+                      {{ atletaDetalle.datos_antropometricos.imc }}
+                    </span>
                   </div>
+                  <!-- Badge rango IMC -->
+                  <div class="item-label q-mt-xs">
+                    <q-badge v-if="colorIMCDetalle(atletaDetalle.datos_antropometricos.imc) === 'imc-bajo'" color="blue-8" label="Peso bajo" />
+                    <q-badge v-else-if="colorIMCDetalle(atletaDetalle.datos_antropometricos.imc) === 'imc-normal'" color="green-8" label="Peso normal" />
+                    <q-badge v-else-if="colorIMCDetalle(atletaDetalle.datos_antropometricos.imc) === 'imc-sobrepeso'" color="orange-4" text-color="black" label="Sobrepeso" />
+                    <q-badge v-else-if="colorIMCDetalle(atletaDetalle.datos_antropometricos.imc) === 'imc-obesidad'" color="orange-10" label="Obesidad" />
+                  </div>
+
                   <!-- <div class="item-label">
                     <b>IMC:</b>
                     <span class="item-value">{{ imcDetalle }}</span>
@@ -158,6 +174,9 @@
                   </div>
                 </div>
               </q-tab-panel>
+
+
+
               <q-tab-panel name="consumismo">
                 <div v-if="Array.isArray(atletaDetalle?.consumismo)">
                   <div
@@ -309,19 +328,31 @@
                   dense
                   type="number"
                 />
+
                 <!-- <q-input
-                  v-model="atletaEdita.datos_antropometricos.imc"
-                  label="IMC"
-                  dense
-                  type="number"
-                /> -->
-                <q-input
                   :model-value="imcEdita"
                   label="IMC"
                   dense
                   type="number"
                   readonly
-                />
+                /> -->
+
+                 <!-- IMC readonly, con color -->
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <q-input
+                    :model-value="imcEdita"
+                    label="IMC" 
+                    dense
+                    type="number"
+                    readonly
+                    :class="colorIMCEdita"
+                    style="max-width:120px"
+                  />
+                  <q-badge v-if="colorIMCEdita === 'imc-bajo'" color="blue-8" label="Peso bajo" />
+                  <q-badge v-else-if="colorIMCEdita === 'imc-normal'" color="green-8" label="Peso normal" />
+                  <q-badge v-else-if="colorIMCEdita === 'imc-sobrepeso'" color="orange-4" text-color="black" label="Sobrepeso" />
+                  <q-badge v-else-if="colorIMCEdita === 'imc-obesidad'" color="orange-10" label="Obesidad" />
+                </div>
                 <q-expansion-item label="Pliegues Cutáneos">
                   <q-input
                     v-for="k in plieguesKeys"
@@ -714,6 +745,30 @@ watch(
   { immediate: true, deep: true }
 );
 
+// colores imc
+// Devuelve la clase según el valor del IMC para el detalle
+function colorIMCDetalle(imc) {
+  if (imc == null || isNaN(imc)) return ''
+  if (imc < 18) return 'imc-bajo'
+  if (imc >= 18 && imc <= 25) return 'imc-normal'
+  if (imc > 25 && imc <= 30) return 'imc-sobrepeso'
+  if (imc > 30) return 'imc-obesidad'
+  return ''
+}
+
+// Computed para el color de IMC en el formulario de edición
+const colorIMCEdita = computed(() => {
+  const imc = Number(imcEdita.value)
+  if (!imc) return ''
+  if (imc < 18) return 'imc-bajo'
+  if (imc >= 18 && imc <= 25) return 'imc-normal'
+  if (imc > 25 && imc <= 30) return 'imc-sobrepeso'
+  if (imc > 30) return 'imc-obesidad'
+  return ''
+})
+
+
+
 // detalle imc
 
 const imcEdita = computed(() => {
@@ -795,6 +850,8 @@ const onEvidenciaFileChange = async (e, idx) => {
   }
 };
 </script>
+
+
 
 <style scoped>
 .tabla-wrapper {
@@ -881,6 +938,28 @@ const onEvidenciaFileChange = async (e, idx) => {
     font-size: 0.95rem;
   }
 }
+
+
+/* estilos botones colores */
+
+.imc-bajo {
+  color: #1976d2 !important; /* azul: Quasar blue-8 */
+  font-weight: bold;
+}
+.imc-normal {
+  color: #388e3c !important; /* verde: Quasar green-8 */
+  font-weight: bold;
+}
+.imc-sobrepeso {
+  color: #ffa726 !important; /* naranja claro: Quasar orange-4 */
+  font-weight: bold;
+}
+.imc-obesidad {
+  color: #e65100 !important; /* naranja oscuro: Quasar orange-10 */
+  font-weight: bold;
+}
+
+
 
 /* estilos para items  */
 .item-block-wrapper {
