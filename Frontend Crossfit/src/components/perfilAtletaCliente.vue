@@ -33,7 +33,7 @@
               <div class="col-12">
                 <q-card flat bordered class="q-pa-md bg-grey-1 shadow-1 q-mb-md antropo-card-custom">
                   <div class="text-h6 text-orange-9 q-mb-md text-center card-title">Básicos</div>
-                  <div class="q-mb-xs datos-campo"><b>Estatura:</b> <span>{{ perfil.datos_antropometricos.estatura_cm }} centimetros</span></div>
+                  <div class="q-mb-xs datos-campo"><b>Estatura:</b> <span>{{ perfil.datos_antropometricos.estatura_cm }} metros</span></div>
                   <div class="q-mb-xs datos-campo"><b>Peso:</b> <span>{{ perfil.datos_antropometricos.peso_kg }} kg</span></div>
                   <!-- <div class="q-mb-xs datos-campo"><b>IMC:</b> <span>{{ perfil.datos_antropometricos.imc }}</span></div> -->
                 <div class="q-mb-xs datos-campo">
@@ -158,7 +158,7 @@
               <q-input v-model="perfilEdita.correo" label="Correo" dense />
               <q-input v-model="perfilEdita.telefono" label="Teléfono" dense />
               <q-expansion-item label="Antropometría" icon="fitness_center" default-opened>
-                <q-input v-model="perfilEdita.datos_antropometricos.estatura_cm" label="Estatura (cm)" dense type="number" />
+                <q-input v-model="perfilEdita.datos_antropometricos.estatura_cm" label="Estatura (mt)" dense type="number" />
                 <q-input v-model="perfilEdita.datos_antropometricos.peso_kg" label="Peso (kg)" dense type="number" />
                 <q-input v-model="perfilEdita.datos_antropometricos.imc" label="IMC" dense type="number" readonly />
 

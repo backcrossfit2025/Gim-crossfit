@@ -237,6 +237,7 @@ handleResize();
     margin-top: -350px;
     padding: 3vw 2vw 4vw 2vw;
     min-height: 55vh;
+    margin-top: -650px !important;
   }
 }
 
