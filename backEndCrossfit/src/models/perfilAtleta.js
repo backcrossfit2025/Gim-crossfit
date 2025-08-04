@@ -34,6 +34,7 @@ const atletaSchema = new mongoose.Schema({
     evidencia: { type: String }
   }
 ],
+  puntos: { type: Number, default: 0 },
 
   datos_antropometricos: {
     estatura_cm: { type: Number },

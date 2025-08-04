@@ -121,12 +121,11 @@ subirEvidencia: async (req, res) => {
       return res.status(400).json({ msg: "No se subió ninguna imagen." });
     }
 
-    
     // Subir imagen a Cloudinary desde el buffer
     const subirACloudinary = (fileBuffer) => {
       return new Promise((resolve, reject) => {
         const upload_stream = cloudinary.uploader.upload_stream(
-          { folder: 'evidencias' }, // Puedes cambiar el folder si quieres
+          { folder: 'evidencias' },
           (error, result) => {
             if (result) resolve(result.secure_url);
             else reject(error);
@@ -136,26 +135,36 @@ subirEvidencia: async (req, res) => {
       });
     };
 
-    // Sube la imagen y obtén la URL
     const urlCloudinary = await subirACloudinary(req.file.buffer);
 
-    // Guarda la URL en el item correspondiente
     const atleta = await Atleta.findById(_id);
     if (!atleta) {
       return res.status(404).json({ msg: "Atleta no encontrado" });
     }
+
     const item = atleta.items.id(item_id) || atleta.items.find(i => i.item_id.toString() === item_id);
     if (!item) {
       return res.status(404).json({ msg: "Item no encontrado" });
     }
+
+    // Solo sumar puntos si no tenía evidencia previa
+    const sumaPuntos = !item.evidencia;
+
     item.evidencia = urlCloudinary;
+    if (sumaPuntos) atleta.puntos += 10;
+
     await atleta.save();
 
-    res.json({ msg: "Evidencia subida correctamente", evidencia: item.evidencia });
+    res.json({
+      msg: `Evidencia subida correctamente ${sumaPuntos ? ' y puntos asignados' : ''}`,
+      evidencia: item.evidencia,
+      puntosTotales: atleta.puntos
+    });
   } catch (error) {
     res.status(500).json({ msg: "Error al subir la evidencia", error: error.message });
   }
 },
+
 
 getPerfilPorId: async (req, res) => {
   try {
