@@ -96,6 +96,10 @@
                       atletaDetalle?.telefono
                     }}</span>
                   </div>
+                  <div class="item-label">
+  <b>Puntos:</b>
+  <span class="item-value">{{ atletaDetalle?.puntos }}</span>
+</div>
                 </div>
               </q-tab-panel>
               <q-tab-panel name="antropo">
@@ -560,6 +564,7 @@ const columns = [
   { name: "edad", label: "Edad", field: "edad", align: "left" },
   { name: "correo", label: "Correo", field: "correo", align: "left" },
   { name: "telefono", label: "Teléfono", field: "telefono", align: "left" },
+  { name: "puntos", label: "Puntos", field: "puntos", align: "center" },
   { name: "acciones", label: "Acciones", field: "acciones", align: "center" },
 ];
 

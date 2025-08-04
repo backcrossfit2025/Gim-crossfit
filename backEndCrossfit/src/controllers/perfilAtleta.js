@@ -117,6 +117,7 @@ const httpAtleta = {
 subirEvidencia: async (req, res) => {
   try {
     const { _id, item_id } = req.params;
+
     if (!req.file) {
       return res.status(400).json({ msg: "No se subió ninguna imagen." });
     }
@@ -151,19 +152,30 @@ subirEvidencia: async (req, res) => {
     const sumaPuntos = !item.evidencia;
 
     item.evidencia = urlCloudinary;
-    if (sumaPuntos) atleta.puntos += 10;
+
+    if (sumaPuntos) {
+      atleta.puntos = (atleta.puntos || 0) + 10;
+      console.log(`✅ Se asignaron 10 puntos a ${atleta.nombre}. Total: ${atleta.puntos}`);
+    } else {
+      console.log(`ℹ️ Ya existía evidencia. No se asignaron puntos a ${atleta.nombre}`);
+    }
 
     await atleta.save();
 
     res.json({
-      msg: `Evidencia subida correctamente ${sumaPuntos ? ' y puntos asignados' : ''}`,
+      msg: `Evidencia subida correctamente${sumaPuntos ? " y puntos asignados" : ""}`,
       evidencia: item.evidencia,
       puntosTotales: atleta.puntos
     });
   } catch (error) {
-    res.status(500).json({ msg: "Error al subir la evidencia", error: error.message });
+    console.error("❌ Error al subir evidencia:", error.message);
+    res.status(500).json({
+      msg: "Error al subir la evidencia",
+      error: error.message
+    });
   }
 },
+
 
 
 getPerfilPorId: async (req, res) => {
