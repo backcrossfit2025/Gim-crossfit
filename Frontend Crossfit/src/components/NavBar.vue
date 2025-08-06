@@ -448,7 +448,7 @@ handleResize();
     min-width: 98px !important;
   }
   .page-content-superpuesto {
-    margin-top: -230px !important;
+    margin-top: -565px !important;
     border-radius: 12px 12px 0 0;
     /* min-height: 50vh; */
     /* padding: 1vw 0.5vw 2vw 0.5vw; */
