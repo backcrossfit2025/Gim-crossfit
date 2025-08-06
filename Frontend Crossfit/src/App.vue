@@ -193,7 +193,7 @@ const store = useStoreUsuarios()
     margin-top: -800px !important;
     border-radius: 12px 12px 0 0;
     /* min-height: 50vh; */
-    padding: 4vw 1vw 1vw 11.5vw;
+    padding: 12vw 1vw 1vw 11.5vw;
 
   }
   /* Responsividad */
