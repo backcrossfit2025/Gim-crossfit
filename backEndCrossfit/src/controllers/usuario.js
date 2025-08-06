@@ -40,18 +40,35 @@ const httpUsuarios = {
       res.status(500).json({ error: "Error al obtener usuarios" });
     }
   },
-  postUsuarioInsertar: async (req, res) => {
-    try {
-      const { nombre, email, password, rol } = req.body;
-      const usuario = new Usuario({ nombre, email, password, rol });
-      const salt = bcryptjs.genSaltSync();
-      usuario.password = bcryptjs.hashSync(password, salt);
-      await usuario.save();
-      res.json({ usuario });
-    } catch (error) {
-      res.status(400).json({ error: "no se encuentra parametros" });
+  
+postUsuarioInsertar: async (req, res) => {
+  try {
+    const { nombre, email, password, rol, autorizacion_datos_personales } = req.body;
+
+    // Validación obligatoria del check
+    if (typeof autorizacion_datos_personales !== 'boolean' || autorizacion_datos_personales !== true) {
+      return res.status(400).json({ msg: 'Debes autorizar el tratamiento de datos personales.' });
     }
-  },
+
+    const usuario = new Usuario({
+      nombre,
+      email,
+      password,
+      rol,
+      autorizacion_datos_personales // ✅ lo guardas
+    });
+
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync(password, salt);
+
+    await usuario.save();
+
+    res.json({ usuario });
+  } catch (error) {
+    res.status(400).json({ error: "No se encuentran parámetros" });
+  }
+},
+
   postLogin: async (req, res) => {
     const { email, password } = req.body;
     try {

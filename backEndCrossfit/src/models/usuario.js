@@ -10,7 +10,8 @@ const usuarioSchema = new mongoose.Schema({
     password: { type: String, required: true, default: "",min:8,max:15 },
     estado: { type: Number, required: true, default: 1 },
     rol: { type: String, required: true, enum: ['administrador', 'cliente'], default: 'cliente' },
-    codigoVerificacion: { type: String }
+    codigoVerificacion: { type: String },
+    autorizacion_datos_personales: { type: Boolean, required: true, default: false } // NUEVO
 
 }, { timestamps: true });
 

@@ -193,7 +193,8 @@ const store = useStoreUsuarios()
     margin-top: -800px !important;
     border-radius: 12px 12px 0 0;
     /* min-height: 50vh; */
-    padding: 1vw 0.5vw 2vw 13.5vw !important;
+    padding: 4vw 1vw 1vw 11.5vw;
+
   }
   /* Responsividad */
 @media (max-width: 1200px) and (min-width: 900px) {
@@ -216,7 +217,6 @@ const store = useStoreUsuarios()
     border-radius: 16px 16px 0 0;
     box-shadow: 0 4px 28px rgba(0, 0, 0, 0.10);
     /* padding: 2vw 1vw 3vw 1vw; */
-    padding: 1vw 0.5vw 2vw 13.5vw !important;
     /* padding: 3vw 0.5vw 1vw 14.5vw; */
     transition: width 0.2s, margin 0.2s;
     z-index: 10;

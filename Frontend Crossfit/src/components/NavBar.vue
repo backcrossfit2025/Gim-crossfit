@@ -349,6 +349,7 @@ handleResize();
     border-radius: 16px 16px 0 0;
     box-shadow: 0 4px 28px rgba(0, 0, 0, 0.10);
     padding: 2vw 1vw 3vw 1vw;
+
     transition: width 0.2s, margin 0.2s;
     z-index: 10;
 }
@@ -450,7 +451,7 @@ handleResize();
     margin-top: -230px !important;
     border-radius: 12px 12px 0 0;
     /* min-height: 50vh; */
-    padding: 1vw 0.5vw 2vw 0.5vw;
+    /* padding: 1vw 0.5vw 2vw 0.5vw; */
   }
   .content {
     height: 35vh !important;

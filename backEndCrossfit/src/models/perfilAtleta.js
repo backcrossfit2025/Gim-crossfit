@@ -31,7 +31,8 @@ const atletaSchema = new mongoose.Schema({
     valor: { type: String },
     nivel: { type: String },
     grupo: { type: String },
-    evidencia: { type: String }
+    evidencia: { type: String },
+   ultimaPuntuacion: { type: Date } 
   }
 ],
   puntos: { type: Number, default: 0 },

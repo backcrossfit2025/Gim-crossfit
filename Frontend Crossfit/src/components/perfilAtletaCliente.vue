@@ -24,6 +24,7 @@
               <div class="q-mb-sm"><b>Sexo:</b> <span>{{ perfil.sexo }}</span></div>
               <div class="q-mb-sm"><b>Correo:</b> <span>{{ perfil.correo }}</span></div>
               <div class="q-mb-sm"><b>Teléfono:</b> <span>{{ perfil.telefono }}</span></div>
+              <div class="q-mb-sm"><b>Puntos:</b> <span>{{ perfil.puntos }}</span></div>
             </q-card>
           </q-tab-panel>
 
@@ -161,6 +162,12 @@
                 <q-input v-model="perfilEdita.datos_antropometricos.estatura_cm" label="Estatura (mt)" dense type="number" />
                 <q-input v-model="perfilEdita.datos_antropometricos.peso_kg" label="Peso (kg)" dense type="number" />
                 <q-input v-model="perfilEdita.datos_antropometricos.imc" label="IMC" dense type="number" readonly />
+<div class="q-mt-xs">
+  <q-badge v-if="colorIMCEdita === 'imc-bajo'" color="blue-8" label="Peso bajo" />
+  <q-badge v-else-if="colorIMCEdita === 'imc-normal'" color="green-8" label="Peso normal" />
+  <q-badge v-else-if="colorIMCEdita === 'imc-sobrepeso'" color="orange-4" text-color="black" label="Sobrepeso" />
+  <q-badge v-else-if="colorIMCEdita === 'imc-obesidad'" color="orange-10" label="Obesidad" />
+</div>
 
                 <q-expansion-item label="Pliegues Cutáneos">
                   <q-input v-for="k in plieguesKeys" :key="k" v-model="perfilEdita.datos_antropometricos.pliegues_cutaneos[k]" :label="k" dense type="number" />
@@ -557,34 +564,97 @@ async function guardarCambios() {
 }
 
 
+// poner color a edit en perfil
+const colorIMCEdita = computed(() => {
+  const imc = perfilEdita.value?.datos_antropometricos?.imc
+  if (imc === null || imc === undefined) return ''
+  if (imc < 18) return 'imc-bajo'
+  if (imc >= 18 && imc <= 25) return 'imc-normal'
+  if (imc > 25 && imc <= 30) return 'imc-sobrepeso'
+  if (imc > 30) return 'imc-obesidad'
+  return ''
+})
+
 // Manejar cambio de archivo de evidencia
-// Subir evidencia desde edición (opcional, por si permites desde edición también)
-const onEvidenciaFileChange = async (e, idx) => {
+const onEvidenciaFileChangeEdit = async (e, idx) => {
   const file = e.target.files[0];
   if (!file) return;
+
   try {
     const formData = new FormData();
     formData.append("evidencia", file);
-    const atletaId = perfil.value._id;
-    const itemId = perfil.value.items[idx]._id || perfil.value.items[idx].item_id;
+
+    const atletaId = perfilEdita.value._id;
+    const itemId = perfilEdita.value.items[idx]._id || perfilEdita.value.items[idx].item_id;
     const token = usuarioStore.token;
     const url = `https://gim-crossfit.onrender.com/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
+
     const response = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "x-token": token,
       },
     });
-    Notify.create({ type: "positive", message: "Imagen subida con éxito" });
-    await cargarPerfil();
+
+    // Actualiza la imagen de evidencia localmente
+    perfilEdita.value.items[idx].evidencia = response.data.evidencia;
+
+    Notify.create({ type: "positive", message: response.data.msg || "Imagen subida con éxito" });
   } catch (error) {
     Notify.create({
       type: "negative",
       message: error?.response?.data?.msg || error.message,
     });
+    console.error("❌ Error al subir evidencia desde edición:", error);
   }
 };
 
+
+// Subir evidencia desde edición (opcional, por si permites desde edición también)
+const onEvidenciaFileChange = async (e, idx) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const formData = new FormData();
+    formData.append("evidencia", file);
+
+    const atletaId = perfil.value._id;
+    const itemId =
+      perfil.value.items[idx]._id || perfil.value.items[idx].item_id;
+
+    const token = usuarioStore.token;
+    const url = `http://localhost:2436/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
+
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-token": token,
+      },
+    });
+
+    // ✅ Actualiza la evidencia en el frontend
+    perfil.value.items[idx].evidencia = response.data.evidencia;
+
+    // ✅ Actualiza los puntos si vienen en la respuesta
+    if (typeof response.data.puntosTotales === "number") {
+      perfil.value.puntos = response.data.puntosTotales;
+    }
+
+    Notify.create({
+      type: "positive",
+      message: response.data.msg || "Imagen subida con éxito",
+    });
+
+    await cargarPerfil(); // 🔄 actualiza los datos desde backend
+  } catch (error) {
+    Notify.create({
+      type: "negative",
+      message: error?.response?.data?.msg || error.message,
+    });
+    console.error("❌ Error al subir evidencia:", error);
+  }
+};
 
 
 </script>
@@ -600,7 +670,7 @@ const onEvidenciaFileChange = async (e, idx) => {
   
 }
 .perfil-card {
-  max-width: 530px;
+  max-width: 55%;
   width: 100%;
   border-radius: 20px;
   box-shadow: 0 2px 16px #0001;

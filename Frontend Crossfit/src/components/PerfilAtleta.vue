@@ -96,7 +96,7 @@
                       atletaDetalle?.telefono
                     }}</span>
                   </div>
-                  <div class="item-label">
+   <div class="item-label">
   <b>Puntos:</b>
   <span class="item-value">{{ atletaDetalle?.puntos }}</span>
 </div>
@@ -261,7 +261,7 @@
                         :src="item.evidencia"
                         alt="Evidencia"
                         style="
-                          max-width: 180px;
+                          max-width: 100px;
                           border-radius: 8px;
                           margin-top: 5px;
                           box-shadow: 0 1px 5px #0002;
@@ -830,22 +830,34 @@ function buscarDescripcion(id) {
 const onEvidenciaFileChange = async (e, idx) => {
   const file = e.target.files[0];
   if (!file) return;
+
   try {
     const formData = new FormData();
     formData.append("evidencia", file);
+
     const atletaId = atletaEdita.value._id;
     const itemId =
       atletaEdita.value.items[idx]._id || atletaEdita.value.items[idx].item_id;
+
     const token = useUsuario.token;
     const url = `https://gim-crossfit.onrender.com/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
+
     const response = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "x-token": token,
       },
     });
+
+    // 🔄 Actualiza la evidencia en el frontend
     atletaEdita.value.items[idx].evidencia = response.data.evidencia;
-    Notify.create({ type: "positive", message: "Imagen subida con éxito" });
+
+    // ✅ Actualiza los puntos del atleta en el frontend
+    if (typeof response.data.puntosTotales === "number") {
+      atletaEdita.value.puntos = response.data.puntosTotales;
+    }
+
+    Notify.create({ type: "positive", message: response.data.msg || "Imagen subida con éxito" });
   } catch (error) {
     Notify.create({
       type: "negative",

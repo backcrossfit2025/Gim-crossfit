@@ -83,7 +83,8 @@ const httpAtleta = {
           valor: entrada.valor,
           nivel,
           grupo,
-          evidencia: entrada.evidencia || null // Aseguramos que la evidencia sea opcional
+          evidencia: entrada.evidencia || null, // Aseguramos que la evidencia sea opcional
+          ultimaPuntuacion: null, // para inicializarlo correctamente
         });
 
         habilidadesEvaluadas.push({
@@ -122,7 +123,6 @@ subirEvidencia: async (req, res) => {
       return res.status(400).json({ msg: "No se subió ninguna imagen." });
     }
 
-    // Subir imagen a Cloudinary desde el buffer
     const subirACloudinary = (fileBuffer) => {
       return new Promise((resolve, reject) => {
         const upload_stream = cloudinary.uploader.upload_stream(
@@ -148,25 +148,31 @@ subirEvidencia: async (req, res) => {
       return res.status(404).json({ msg: "Item no encontrado" });
     }
 
-    // Solo sumar puntos si no tenía evidencia previa
-    const sumaPuntos = !item.evidencia;
+    const ahora = new Date();
+    const hoy = ahora.toDateString(); // día actual en formato legible
+    const ultima = item.ultimaPuntuacion ? new Date(item.ultimaPuntuacion).toDateString() : null;
 
+    const puedeSumarPuntos = ultima !== hoy;
+
+    // Guardar la nueva evidencia
     item.evidencia = urlCloudinary;
-
-    if (sumaPuntos) {
+    if (puedeSumarPuntos) {
       atleta.puntos = (atleta.puntos || 0) + 10;
-      console.log(`✅ Se asignaron 10 puntos a ${atleta.nombre}. Total: ${atleta.puntos}`);
+      item.ultimaPuntuacion = ahora;
+      console.log(`✅ +10 puntos a ${atleta.nombre} por ítem. Total: ${atleta.puntos}`);
     } else {
-      console.log(`ℹ️ Ya existía evidencia. No se asignaron puntos a ${atleta.nombre}`);
+      console.log(`ℹ️ Ya se asignaron puntos hoy para este ítem`);
     }
-
+     atleta.markModified("items");
+     atleta.markModified("puntos");
     await atleta.save();
 
     res.json({
-      msg: `Evidencia subida correctamente${sumaPuntos ? " y puntos asignados" : ""}`,
+      msg: `Evidencia subida correctamente${puedeSumarPuntos ? " y puntos asignados" : " (puntos ya otorgados hoy para este ítem)"}`,
       evidencia: item.evidencia,
       puntosTotales: atleta.puntos
     });
+
   } catch (error) {
     console.error("❌ Error al subir evidencia:", error.message);
     res.status(500).json({
@@ -175,6 +181,7 @@ subirEvidencia: async (req, res) => {
     });
   }
 },
+
 
 
 
@@ -305,7 +312,8 @@ buscarAtletasPorNombre: async (req, res) => {
           valor: entrada.valor,
           nivel,
           grupo,
-          evidencia: entrada.evidencia || null // Aseguramos que la evidencia sea opcional
+          evidencia: entrada.evidencia || null, // Aseguramos que la evidencia sea opcional
+          ultimaPuntuacion: null // para inicializarlo correctamente
         });
 
         habilidadesEvaluadas.push({
