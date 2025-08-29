@@ -25,7 +25,7 @@ const getAll = async (token) => {
       return []
     }
     insertarToken(token)
-    const res = await axios.get('https://gim-crossfit.onrender.com/api/atleta/listarTodo')
+    const res = await axios.get('http://localhost:2436/api/atleta/listarTodo')
     estatus.value = res.status
     // Solo guarda el array de atletas, no el objeto completo
     perfiles.value = res.data.atletas || []
@@ -41,7 +41,7 @@ const getAll = async (token) => {
   const getById = async (id, token) => {
     try {
       insertarToken(token)
-      const res = await axios.get(`https://gim-crossfit.onrender.com/api/atleta/listar/${id}`)
+      const res = await axios.get(`http://localhost:2436/api/atleta/listar/${id}`)
       estatus.value = res.status
       perfil.value = res.data
       return res.data
@@ -57,7 +57,7 @@ const getAll = async (token) => {
     try {
       insertarToken(token)
       // Cambia la ruta para que apunte a /por-usuario/:usuarioId
-      const res = await axios.get(`https://gim-crossfit.onrender.com/api/atleta/por-usuario/${usuarioId}`)
+      const res = await axios.get(`http://localhost:2436/api/atleta/por-usuario/${usuarioId}`)
       estatus.value = res.status
       perfil.value = res.data.atleta
       return res.data
@@ -72,7 +72,7 @@ const getAll = async (token) => {
   const buscar = async (clave, token) => {
     try {
       insertarToken(token)
-      const res = await axios.get('https://gim-crossfit.onrender.com/api/atleta/buscar-perfiles', {
+      const res = await axios.get('http://localhost:2436/api/atleta/buscar-perfiles', {
         params: { clave }
       })
       estatus.value = res.status
@@ -92,7 +92,7 @@ const getAll = async (token) => {
 
   
       // ENVÍA SOLO { atletaData } SI EL BACKEND LO REQUIERE
-      const res = await axios.post('https://gim-crossfit.onrender.com/api/atleta/crearPerfil', { atletaData })
+      const res = await axios.post('http://localhost:2436/api/atleta/crearPerfil', { atletaData })
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -106,7 +106,7 @@ const getAll = async (token) => {
   const editar = async (id, atletaData, token) => {
     try {
       insertarToken(token)
-      const res = await axios.put(`https://gim-crossfit.onrender.com/api/atleta/editarPerfil/${id}`, { atletaData })
+      const res = await axios.put(`http://localhost:2436/api/atleta/editarPerfil/${id}`, { atletaData })
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -120,7 +120,7 @@ const getAll = async (token) => {
   const eliminar = async (id, token) => {
     try {
       insertarToken(token)
-      const res = await axios.delete(`https://gim-crossfit.onrender.com/api/atleta/eliminarPerfil/${id}`, atletaData)
+      const res = await axios.delete(`http://localhost:2436/api/atleta/eliminarPerfil/${id}`, atletaData)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {

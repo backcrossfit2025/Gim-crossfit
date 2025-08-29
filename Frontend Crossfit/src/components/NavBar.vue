@@ -107,20 +107,30 @@ handleResize();
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto"></ul>
             <div class="d-flex align-items-center ms-2">
-              <button
+              <q-btn
                 v-if="store.token"
-                @click="cerrarSesion"
+                color="negative"
+                icon="logout"
+                label="Cerrar sesión"
                 class="logout-btn ms-2"
-              >
-                Cerrar sesión
-              </button>
-              <i
+                @click="cerrarSesion"
+                unelevated
+                rounded
+                size="lg"
+              />
+              <q-btn
                 v-else
-                class="bi bi-person-circle login-icon ms-3"
+                color="orange"
+                icon="person"
+                label="Iniciar sesión"
+                class="login-btn ms-2"
                 @click="mostrarModalLogin = true"
+                unelevated
+                rounded
+                size="lg"
               />
               <q-dialog v-model="mostrarModalLogin" persistent>
-<q-card style="min-width:350px;max-width:90vw; border-radius:35px;">
+                <q-card style="min-width:350px;max-width:90vw; border-radius:35px;">
                   <q-card-section>
                     <Login @close="mostrarModalLogin = false" />
                   </q-card-section>
@@ -199,14 +209,14 @@ handleResize();
 }
 
 .logout-btn {
-  background: linear-gradient(90deg, #C88F75FF 0%, #9F5634FF 100%);
+  background: linear-gradient(70deg, #C88F75FF 0%, #9F5634FF 80%);
   color: #fff;
   border: none;
-  border-radius: 25px;
-  padding: 8px 24px;
-  font-weight: 300;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(248, 87, 166, 0.15);
+  border-radius: 20px;
+  padding: 0px 1px;
+  font-weight: 100;
+  font-size: 0.5rem;
+  /* box-shadow: 0 2px 8px rgba(248, 87, 166, 0.10); */
   cursor: pointer;
   transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
   outline: none;
@@ -214,8 +224,19 @@ handleResize();
 
 .logout-btn:hover {
   background: linear-gradient(90deg, #CE8F68FF 0%, #CB9583FF 100%);
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 4px 16px rgba(248, 87, 166, 0.25);
+  color: #fff;
+}
+
+.login-btn {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 8px 22px;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.10);
+}
+.login-btn:hover {
+  background: #ffb74d !important;
+  color: #fff !important;
 }
 
 .navbar-quote {
@@ -259,9 +280,36 @@ handleResize();
     width: 100%;
   }
   .logout-btn {
-    margin: 12px auto 0 auto;
+    margin: 5px auto 0 auto;
     display: block;
     float: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-btn,
+  .logout-btn {
+    font-size: 0.95rem;
+    padding: 5px 12px;
+    min-width: 70px;
+  }
+}
+@media (max-width: 600px) and (min-width: 421px) {
+  .login-btn,
+  .logout-btn {
+    font-size: 0.88rem !important;
+    padding: 4px 8px !important;
+    min-width: 70px !important;
+    border-radius: 12px !important;
+  }
+}
+@media (max-width: 430px) {
+  .login-btn,
+  .logout-btn {
+    font-size: 0.82rem !important;
+    padding: 3px 5px !important;
+    min-width: 60px !important;
+    border-radius: 10px !important;
   }
 }
 
@@ -479,6 +527,4 @@ handleResize();
     border-radius: 10px;
   }
 }
-
-
 </style>

@@ -26,7 +26,7 @@ export const useStoreItems = defineStore('items', () => {
   const getAll = async (token) => {
     try {
       insertarToken(token)
-      const res = await axios.get('https://gim-crossfit.onrender.com/api/item/listaItem')
+      const res = await axios.get('http://localhost:2436/api/item/listaItem')
       items.value = res.data
       estatus.value = res.status
       return res.data
@@ -41,7 +41,7 @@ export const useStoreItems = defineStore('items', () => {
   const getById = async (id, token) => {
     try {
       insertarToken(token)
-      const res = await axios.get(`https://gim-crossfit.onrender.com/api/item/listaId/${id}`)
+      const res = await axios.get(`http://localhost:2436/api/item/listaId/${id}`)
       item.value = res.data
       estatus.value = res.status
       return res.data
@@ -56,7 +56,7 @@ export const useStoreItems = defineStore('items', () => {
   const buscar = async (query, token) => {
     try {
       insertarToken(token)
-      const res = await axios.get('https://gim-crossfit.onrender.com/api/item/buscar', { params: { q: query } })
+      const res = await axios.get('http://localhost:2436/api/item/buscar', { params: { q: query } })
       items.value = res.data
       estatus.value = res.status
       return res.data
@@ -71,7 +71,7 @@ export const useStoreItems = defineStore('items', () => {
   const crear = async (data, token) => {
     try {
       insertarToken(token)
-      const res = await axios.post('https://gim-crossfit.onrender.com/api/item/crear', data)
+      const res = await axios.post('http://localhost:2436/api/item/crear', data)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -85,7 +85,7 @@ export const useStoreItems = defineStore('items', () => {
   const editar = async (id, data, token) => {
     try {
       insertarToken(token)
-      const res = await axios.put(`https://gim-crossfit.onrender.com/api/item/editar/${id}`, data)
+      const res = await axios.put(`http://localhost:2436/api/item/editar/${id}`, data)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -99,7 +99,7 @@ export const useStoreItems = defineStore('items', () => {
   const eliminar = async (id, token) => {
     try {
       insertarToken(token)
-      const res = await axios.delete(`https://gim-crossfit.onrender.com/api/item/itemId/${id}`)
+      const res = await axios.delete(`http://localhost:2436/api/item/itemId/${id}`)
       
       estatus.value = res.status
       return { success: true, data: res.data }
@@ -114,7 +114,7 @@ export const useStoreItems = defineStore('items', () => {
   const evaluarNivel = async (payload, token) => {
     try {
       insertarToken(token)
-      const res = await axios.post('https://gim-crossfit.onrender.com/api/item/evaluar-nivel', payload)
+      const res = await axios.post('http://localhost:2436/api/item/evaluar-nivel', payload)
       estatus.value = res.status
       return res.data
     } catch (err) {

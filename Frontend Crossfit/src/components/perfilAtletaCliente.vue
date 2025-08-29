@@ -587,7 +587,7 @@ const onEvidenciaFileChangeEdit = async (e, idx) => {
     const atletaId = perfilEdita.value._id;
     const itemId = perfilEdita.value.items[idx]._id || perfilEdita.value.items[idx].item_id;
     const token = usuarioStore.token;
-    const url = `https://gim-crossfit.onrender.com/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
+    const url = `http://localhost:3624/api/atleta/subir-evidencia/${atletaId}/${itemId}`;
 
     const response = await axios.post(url, formData, {
       headers: {
@@ -957,4 +957,19 @@ const onEvidenciaFileChange = async (e, idx) => {
   }
 }
 
+/* Nuevos estilos sugeridos para responsividad */
+@media (max-width: 900px) and (min-width: 421px) {
+  .perfil-atleta-cliente-page {
+    margin-top: -700px !important;
+    padding-top: 16px !important;
+    min-height: 60vh !important;
+  }
+}
+@media (max-width: 600px) {
+  .perfil-atleta-cliente-page {
+    margin-top: -600px !important;
+    padding-top: 8px !important;
+    min-height: 50vh !important;
+  }
+}
 </style>

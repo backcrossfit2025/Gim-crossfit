@@ -138,6 +138,7 @@ const store = useStoreUsuarios()
 /* Mobile normal */
 @media (max-width: 600px) {
   .footer {
+    margin-top: 0 !important;
     padding: 16px 4px 10px 4px;
     font-size: 13px;
     
@@ -153,7 +154,8 @@ const store = useStoreUsuarios()
 /* EXTRA: Ultra compacto para <400px (teléfonos muy pequeños) */
 @media (max-width: 420px) {
   .footer {
-    padding: 11px 1px 6px 1px;
+    margin-top: 0 !important;
+    padding: 11px 1px 0px 1px;
     font-size: 12.5px;
   }
   .footer-col {
@@ -337,6 +339,33 @@ const store = useStoreUsuarios()
     margin: 12px auto 0 auto;
     display: block;
     float: none;
+  }
+}
+
+/* Quita el gran espacio arriba del footer en móviles */
+@media (max-width: 600px) {
+  .footer {
+    margin-top: 0 !important;
+  }
+}
+@media (max-width: 420px) {
+  .footer {
+    margin-top: 0 !important;
+  }
+}
+
+/* Quita el gran espacio arriba del footer en tablets y pantallas medianas */
+@media (max-width: 1200px) {
+  .footer {
+    margin-top: 0 !important;
+  }
+}
+
+/* Ajuste para que el contenido no se solape entre 900px y 420px */
+@media (max-width: 900px) and (min-width: 421px) {
+  .page-content-superpuesto {
+    margin-top: -400px !important; /* Ajusta este valor según tu diseño */
+    padding: 4vw 2vw 2vw 2vw;
   }
 }
 </style>
